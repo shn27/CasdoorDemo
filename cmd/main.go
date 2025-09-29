@@ -29,6 +29,7 @@ func main() {
 	// Public routes
 	r.GET("/", handleHome)
 	r.GET("/login", handleLogin)
+	r.GET("/signup", handleSignup)
 	r.GET("/callback", handleCallback)
 
 	// Protected routes
@@ -70,6 +71,26 @@ func handleLogin(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"auth_url": authURL,
 		"message":  "Redirect user to this URL for authentication",
+	})
+}
+
+func handleSignup(c *gin.Context) {
+	// Generate the authorization URL for signup
+	redirectURI := os.Getenv("CASDOOR_REDIRECT_URI") // e.g., "http://localhost:8080/callback"
+
+	// Debug: Print configuration to verify setup
+	fmt.Printf("Signup - Endpoint: %s\n", os.Getenv("CASDOOR_ENDPOINT"))
+	fmt.Printf("Signup - Client ID: %s\n", os.Getenv("CASDOOR_CLIENT_ID"))
+	fmt.Printf("Signup - Redirect URI: %s\n", redirectURI)
+
+	// Use GetSignupUrl for registration
+	signupURL := casdoorClient.GetSignupUrl(true, redirectURI)
+
+	c.JSON(http.StatusOK, gin.H{
+		"auth_url":     signupURL,
+		"redirect_uri": redirectURI,
+		"message":      "Redirect user to this URL for registration",
+		"action":       "signup",
 	})
 }
 

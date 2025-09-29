@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: casdoor
+      POSTGRES_PASSWORD: casdoor
+      POSTGRES_DB: casdoor
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  casdoor:
+    image: casbin/casdoor:latest
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./conf/app.conf:/app/conf/app.conf
+      - ./init_data.json:/app/init_data.json
+    environment:
+      CASDOOR_DB_TYPE: postgres
+      CASDOOR_DB_HOST: db
+      CASDOOR_DB_PORT: 5432
+      CASDOOR_DB_USER: casdoor
+      CASDOOR_DB_PASS: casdoor
+      CASDOOR_DB_NAME: casdoor
+
+volumes:
+  pgdata:

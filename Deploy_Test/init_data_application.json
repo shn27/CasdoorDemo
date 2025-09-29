@@ -1,0 +1,108 @@
+{
+  "applications": [
+    {
+      "owner": "my-org",
+      "name": "app-my-org-test-lalallala",
+      "createdTime": "",
+      "displayName": "My Application Test Yes",
+      "logo": "https://cdn.casbin.org/img/casbin.svg",
+      "homepageUrl": "http://localhost:8000",
+      "description": "My Organization Application Test",
+      "organization": "my-org",
+      "cert": "cert-my-org",
+      "enablePassword": true,
+      "enableSignUp": true,
+      "enableSigninSession": false,
+      "enableAutoSignin": false,
+      "enableCodeSignin": false,
+      "enableSamlCompress": false,
+      "enableWebAuthn": false,
+      "enableLinkWithEmail": false,
+      "orgChoiceMode": "",
+      "samlReplyUrl": "",
+      "signupItems": [
+        {
+          "name": "ID",
+          "visible": false,
+          "required": true,
+          "prompted": false,
+          "rule": "Random"
+        },
+        {
+          "name": "Username",
+          "visible": true,
+          "required": true,
+          "prompted": false,
+          "rule": "None"
+        },
+        {
+          "name": "Display name",
+          "visible": true,
+          "required": true,
+          "prompted": false,
+          "rule": "None"
+        },
+        {
+          "name": "Password",
+          "visible": true,
+          "required": true,
+          "prompted": false,
+          "rule": "None"
+        },
+        {
+          "name": "Confirm password",
+          "visible": true,
+          "required": true,
+          "prompted": false,
+          "rule": "None"
+        },
+        {
+          "name": "Email",
+          "visible": true,
+          "required": true,
+          "prompted": false,
+          "rule": "Normal"
+        },
+        {
+          "name": "Agreement",
+          "visible": true,
+          "required": true,
+          "prompted": false,
+          "rule": "None"
+        }
+      ],
+      "grantTypes": [
+        "authorization_code",
+        "password",
+        "client_credentials",
+        "token",
+        "refresh_token"
+      ],
+      "organizationObj": null,
+      "tags": [],
+      "clientId": "my-org-client-id-1",
+      "clientSecret": "my-org-client-secret-change-this-1",
+      "redirectUris": [
+        "http://localhost:8080/callback",
+        "http://localhost:3000/callback"
+      ],
+      "tokenFormat": "JWT",
+      "tokenFields": [],
+      "expireInHours": 168,
+      "refreshExpireInHours": 336,
+      "signupUrl": "",
+      "signinUrl": "",
+      "forgetUrl": "",
+      "affiliationUrl": "",
+      "termsOfUse": "",
+      "signupHtml": "",
+      "signinHtml": "",
+      "themeData": null,
+      "formCss": "",
+      "formCssMobile": "",
+      "formOffset": 2,
+      "formSideHtml": "",
+      "formBackgroundUrl": ""
+    }
+  ]
+}
