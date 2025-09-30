@@ -121,7 +121,7 @@ func handleCallback(c *gin.Context) {
 		return
 	}
 	// Parse the JWT token to get user information
-	user, err := casdoorClient.ParseJwtToken(token.AccessToken)
+	user, _ := casdoorClient.ParseJwtToken(token.AccessToken)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": fmt.Sprintf("Failed to parse token: %v", err),
