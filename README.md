@@ -2,8 +2,27 @@
 
 ------------
 
+## Run Postgres
+
+```dockerfile
+ docker run --name casdoor-postgres -d \
+                        -p 5432:5432 \
+                        -e POSTGRES_USER=postgres \
+                        -e POSTGRES_PASSWORD=postgres \
+                        -e POSTGRES_DB=casdoor-test \
+                        postgres:15-alpine
+```
+
 ## Run Casdoor
-`docker run -p 8000:8000 casbin/casdoor-all-in-one`
+This will create an org, an app, a cert, some providers and a user under the app.
+```
+docker run --rm -it \
+--network=host \
+-e driverName=postgres \
+-v ./Deploy/init_data.json/:/init_data.json \
+-e dataSourceName='user=postgres password=postgres host=127.0.0.1 port=5432 sslmode=disable dbname=casdoor-test' \
+casbin/casdoor:latest
+```
 
 ### Configuration Setup
 #### Create an Organization

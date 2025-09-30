@@ -6,7 +6,7 @@
       "displayName": "My Organization",
       "websiteUrl": "",
       "favicon": "",
-      "passwordType": "plain",
+      "passwordType": "bcrypt",
       "passwordSalt": "",
       "countryCodes": [
         "US",
@@ -29,8 +29,8 @@
   ],
   "applications": [
     {
-      "owner": "my-org",
-      "name": "app-my-org-test",
+      "owner": "admin",
+      "name": "app-my-org",
       "createdTime": "",
       "displayName": "My Application Test",
       "logo": "https://cdn.casbin.org/img/casbin.svg",
@@ -235,7 +235,6 @@
       "properties": {}
     }
   ],
-
   "providers": [
     {
       "owner": "built-in",
@@ -322,7 +321,7 @@
     {
       "owner": "built-in",
       "name": "provider-captcha-cloudflare",
-      "createdTime": "2024-01-01T00:00:00Z",
+      "createdTime": "",
       "displayName": "Cloudflare Turnstile Captcha",
       "category": "Captcha",
       "type": "Cloudflare Turnstile",
@@ -359,6 +358,21 @@
       "issuerUrl": "",
       "enableSignAuthnRequest": false,
       "providerUrl": ""
+    }
+  ],
+  "certs": [
+    {
+      "owner": "built-in",
+      "name": "cert-my-org",
+      "createdTime": "",
+      "displayName": "My Organization Certificate",
+      "scope": "JWT",
+      "type": "x509",
+      "cryptoAlgorithm": "RS256",
+      "bitSize": 4096,
+      "expireInYears": 20,
+      "certificate": "-----BEGIN CERTIFICATE-----\nMIIC7TCCAdWgAwIBAgIUQsXOlO4xKL72EyqP7RvcBczw82IwDQYJKoZIhvcNAQEL\nBQAwFDESMBAGA1UEAwwJbG9jYWxob3N0MB4XDTI1MDkzMDA1MzAxM1oXDTM1MDky\nODA1MzAxM1owFDESMBAGA1UEAwwJbG9jYWxob3N0MIIBIjANBgkqhkiG9w0BAQEF\nAAOCAQ8AMIIBCgKCAQEA7TpvRrasXHY/tNG+3UFwn85ZCnHFrYdnHpzMWCUQt0ms\ne/i+of3IKxELg5g07xZ3CHLlb/Oxvt4LZo7/DjcHbsvB/cTbbGdJW8gWbvGwh3jH\njyjKEm9N+Yy8VMAFTEIKaADdOV6ijWvGAfVhCIDHH8glSGWcda9Vjvqtr2KW0maX\nrEIPZlWLcmlgxGgSfYckRlEEjoKzaiUZtxmsVXNNCEnaMdiZ2eGoD7J/Rw7/7xOn\nXnqPUJyzw25rznd+KvRC1U/7l0ER5ND/ail4JQC+Bqkmy1NgvsACpAlHHUob/Nu4\nm6jMY2f6GksAnsMHTeV7/o6Zx5nZIdyOvNaLCdqB3QIDAQABozcwNTAUBgNVHREE\nDTALgglsb2NhbGhvc3QwHQYDVR0OBBYEFBjaa31PwBWCmXsTZd0zir+MRqTjMA0G\nCSqGSIb3DQEBCwUAA4IBAQCgs0awFQrrOiQmpE9bHydWZW/QMGmi0bsivmX2XyyV\n7x7YpgteFudMrqVXH6G1EJFid6EYCDMn82cZ3GJxHENzbRYkD5aqhhP763DbYxFL\nLLWDqzXKAdx4WT6JYPohEkWpgV46+1yGptUBepk4IfBSbZYnfJm7EAgISOI9dspP\npA2HxZJPrg4IpXDY6DpRKfe8nkEKjso2t66rADUNxUJ7FOsNUsQUqum8KjducMVN\ninIue+uG1wQVd3y8IvA7zZCSAMPJlnpkjPckbI22nPeoT3TgnZ1WVPudmq/OjnSQ\ngPS+4zrVIsbzwh00QzqvVXxWRdjWHhgCZkCwjvh47u3l\n-----END CERTIFICATE-----" ,
+      "privateKey": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDtOm9Gtqxcdj+0\n0b7dQXCfzlkKccWth2cenMxYJRC3Sax7+L6h/cgrEQuDmDTvFncIcuVv87G+3gtm\njv8ONwduy8H9xNtsZ0lbyBZu8bCHeMePKMoSb035jLxUwAVMQgpoAN05XqKNa8YB\n9WEIgMcfyCVIZZx1r1WO+q2vYpbSZpesQg9mVYtyaWDEaBJ9hyRGUQSOgrNqJRm3\nGaxVc00ISdox2JnZ4agPsn9HDv/vE6deeo9QnLPDbmvOd34q9ELVT/uXQRHk0P9q\nKXglAL4GqSbLU2C+wAKkCUcdShv827ibqMxjZ/oaSwCewwdN5Xv+jpnHmdkh3I68\n1osJ2oHdAgMBAAECggEAS8j9sIj+EkHCg1j4UQWtXZgVsPT8sj2N72UnEMeyieNS\n433pJKYG8t8snvsaegDiwQO3kWa4M2ILIVXwXFGvIbGdRR1E/eIXOOd4ZzP18alf\nkzf0KiR9tAnGRorbhmuYmHYiNkgpxOUXqhuCRq2hL2GIq5Kug5giTJ1/rAZiaU84\ngQPsUD/Cjr8u41VSa0JNQOxBl099bCh2lkHj+YIEQvM2fv/joPgnBBku9V7r2GEj\nllJXX2X6bkVbkwqKdpU5nDmF4my2CqZDYArIOA7ktd4w5zVesBvyoWNwkjku+SWf\nz1xjJZv4u+KLm7R/1Qxfp7HmKHR4q4J+nksVEbrVXwKBgQD+A8+2Wro9zSt3D9FE\nBuE8YAsm7skoWzk0KnvU4zcD5MepPYBj8C0ehtpkzUWA6VBoOpVaN3EdT7Nu92tK\nLudTU6xFls0ZLfL0GiUn6vVb0hr4J3mAWk/x89LqmfC6QzCUWsgX5G5CnVJbCaFF\n0vBnUFnfnprnH1CNpVhQQMeKbwKBgQDvFQofhnq5wrBPsDJl0FiPm8PLyhRle0Uy\nZWdGFNk0EKqXZLjsCuGHQEWUyUd6pDM2u/zC32dL4tNUCpQvOgE1A5Km/kNcmiEO\ncfbljODBZI4yfJ9A17wd83TTZ5oZZufk6+m0UZkSqfVxfAPuvVgBJXQZBcE5zCte\ngYbuX07OcwKBgQCTjzU/so7UTfZ88MRZJ0H6p7Ryxm42sl+VrURIVEHmUiWma+LE\nq4YaYK5HtnM0wtSB595RDTn5lA4hXTuHWZ3p6wZ9WnAEu4uSQAnrmXM1BuXB2HSd\nmlksrb6NqCWOnm9/DwmDz6A5tFheKEb2X+Zlrei3ndRQhQFvd2jJHgiMowKBgC6+\nEU2akDHzQ19BFolbU4U4Me6M4rH4iM3Sj39fIhwQyhlxQso7Ul6MDU6Kj6QFqFGi\nLUe4P8zRWvnKW7BkCcpgmXJ2sZrQM3hMhbXZdjO5QifSv5wA0bGVYJjYX4Np4Bqc\nmQN9FI1WlzsJwQcTE7qdpPYjbuSq6yu97TB7h7/LAoGAYWl8tcnjHkoUsRTsf2H7\noqG5+1sUD0/p7VR7d6B77FSdYOPanQ2Ynt5WPzLS+WAktQA+JhHMcB3S8XNukntV\n4mN4k30jSTAdi3oUOKlb9DloASf7hoAm6RRMw/+nDnrvi6vgEljlBoBba3DnAN+1\n5wkRTRAwQMssL8MWd27d0Mc=\n-----END PRIVATE KEY-----"
     }
   ]
 }
