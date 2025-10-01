@@ -8,6 +8,10 @@
       "favicon": "",
       "passwordType": "bcrypt",
       "passwordSalt": "",
+      "passwordOptions": [
+        "SpecialChar",
+        "AtLeast8"
+      ],
       "countryCodes": [
         "US",
         "BD"
@@ -33,7 +37,7 @@
       "name": "cloud-be",
       "createdTime": "",
       "displayName": "My Application Test",
-      "logo": "https://cdn.casbin.org/img/casbin.svg",
+      "logo": "https://cdn.pixabay.com/photo/2023/02/01/00/54/company-7759278_1280.png",
       "homepageUrl": "http://localhost:8000",
       "description": "My Organization Application Test",
       "organization": "appscode",
@@ -44,13 +48,13 @@
       "enableAutoSignin": false,
       "enableCodeSignin": false,
       "enableSamlCompress": false,
-      "enableWebAuthn": false,
+      "enableWebAuthn": true,
       "enableLinkWithEmail": false,
       "orgChoiceMode": "",
       "samlReplyUrl": "",
       "providers": [
         {
-          "owner": "built-in",
+          "owner": "admin",
           "name": "provider-google",
           "canSignUp": true,
           "canSignIn": true,
@@ -61,7 +65,7 @@
           "provider": null
         },
         {
-          "owner": "built-in",
+          "owner": "admin",
           "name": "provider-github",
           "canSignUp": true,
           "canSignIn": true,
@@ -72,7 +76,7 @@
           "provider": null
         },
         {
-          "owner": "built-in",
+          "owner": "admin",
           "name": "provider-captcha-cloudflare",
           "canSignUp": false,
           "canSignIn": false,
@@ -81,6 +85,18 @@
           "signupGroup": "",
           "rule": "None",
           "provider": null
+        }
+      ],
+      "signinMethods": [
+        {
+          "name": "Password",
+          "displayName": "Password",
+          "rule": "All"
+        },
+        {
+          "name": "WebAuthn",
+          "displayName": "WebAuthn",
+          "rule": "None"
         }
       ],
       "signupItems": [
@@ -100,8 +116,8 @@
         },
         {
           "name": "Display name",
-          "visible": true,
-          "required": true,
+          "visible": false,
+          "required": false,
           "prompted": false,
           "rule": "None"
         },
@@ -135,19 +151,14 @@
         }
       ],
       "grantTypes": [
-        "authorization_code",
-        "password",
-        "client_credentials",
-        "token",
-        "refresh_token"
+        "authorization_code"
       ],
       "organizationObj": null,
       "tags": [],
       "clientId": "5b827e1f8cc73cca6dd4",
       "clientSecret": "1409c61ac7fe620ce26bd454d84c9ec52d3b9c0b",
       "redirectUris": [
-        "http://localhost:8080/callback",
-        "http://localhost:3000/callback"
+        "http://localhost:8080/callback"
       ],
       "tokenFormat": "JWT",
       "tokenFields": [],
@@ -175,7 +186,7 @@
       "createdTime": "",
       "updatedTime": "",
       "type": "normal-user",
-      "password": "My$tr0ngP@ssw0rd!",
+      "password": "123",
       "passwordSalt": "",
       "passwordType": "plain",
       "displayName": "Administrator",
@@ -301,7 +312,7 @@
   ],
   "providers": [
     {
-      "owner": "built-in",
+      "owner": "admin",
       "name": "provider-google",
       "createdTime": "",
       "displayName": "Google OAuth Provider",
@@ -309,8 +320,8 @@
       "type": "Google",
       "subType": "",
       "method": "",
-      "clientId": "YOUR_GOOGLE_CLIENT_ID",
-      "clientSecret": "YOUR_GOOGLE_CLIENT_SECRET",
+      "clientId": "rUhug05J9JToDZqB",
+      "clientSecret": "srDiGU4ExdmLLsWw",
       "clientId2": "",
       "clientSecret2": "",
       "cert": "",
@@ -342,7 +353,7 @@
       "providerUrl": ""
     },
     {
-      "owner": "built-in",
+      "owner": "admin",
       "name": "provider-github",
       "createdTime": "",
       "displayName": "GitHub OAuth Provider",
@@ -350,8 +361,8 @@
       "type": "GitHub",
       "subType": "",
       "method": "",
-      "clientId": "YOUR_GITHUB_CLIENT_ID",
-      "clientSecret": "YOUR_GITHUB_CLIENT_SECRET",
+      "clientId": "z8gbfr87765DoWNr",
+      "clientSecret": "Top4KQy2VwvEf944",
       "clientId2": "",
       "clientSecret2": "",
       "cert": "",
@@ -383,7 +394,7 @@
       "providerUrl": ""
     },
     {
-      "owner": "built-in",
+      "owner": "admin",
       "name": "provider-captcha-cloudflare",
       "createdTime": "",
       "displayName": "Cloudflare Turnstile Captcha",
@@ -391,8 +402,8 @@
       "type": "Cloudflare Turnstile",
       "subType": "",
       "method": "",
-      "clientId": "YOUR_CLOUDFLARE_SITE_KEY",
-      "clientSecret": "YOUR_CLOUDFLARE_SECRET_KEY",
+      "clientId": "ri7oDHANKIBemTov",
+      "clientSecret": "NrZMW9IEPXL8wPpo",
       "clientId2": "",
       "clientSecret2": "",
       "cert": "",
