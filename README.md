@@ -85,3 +85,6 @@ for line in (cat .env)
 end
 ```
 `set -Ux CASDOOR_CERTIFICATE "<CERTICICATE>""`
+
+------
+
