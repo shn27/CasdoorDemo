@@ -221,6 +221,19 @@ Add a new OAuth App
   Email title : Casddor Verification Code, 
 }
 ```
+- We will use zepto rather smtp.gmail.com
+```
+[mailer]
+ENABLED             = true
+SUBJECT_PREFIX      = bb.test |
+HOST                = smtp.zeptomail.com:587
+IS_TLS_ENABLED      = false
+FROM                = no-reply@appscode.com
+USER                = emailapikey
+PASSWD              = 
+SEND_AS_PLAIN_TEXT  = false
+MAILER_TYPE         = smtp
+```
 - Help: https://www.youtube.com/watch?v=H0HZc4FgX7E
 
 
