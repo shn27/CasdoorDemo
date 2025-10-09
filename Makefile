@@ -43,4 +43,4 @@ replace_placeholders_into_new_file:
 		else \
 			echo "⚠️  Skipped invalid or empty entry: $$key=$$value"; \
 		fi; \
-	done < .envrc
+	done < cmd/.env
