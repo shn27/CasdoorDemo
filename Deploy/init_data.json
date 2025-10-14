@@ -28,7 +28,17 @@
       "enableSoftDeletion": false,
       "isProfilePublic": true,
       "disableSignin": false,
-      "accountItems": []
+      "accountItems": [],
+      "mfaItems": [
+        {
+          "name": "email",
+          "rule": "Prompt"
+        },
+        {
+          "name": "app",
+          "rule": "Required"
+        }
+      ]
     }
   ],
   "applications": [
@@ -55,6 +65,17 @@
       "providers": [
         {
           "owner": "admin",
+          "name": "provider_captcha_default",
+          "canSignUp": true,
+          "canSignIn": true,
+          "canUnlink": true,
+          "prompted": false,
+          "signupGroup": "",
+          "rule": "None",
+          "provider": null
+        },
+        {
+          "owner": "admin",
           "name": "provider-google",
           "canSignUp": true,
           "canSignIn": true,
@@ -70,17 +91,6 @@
           "canSignUp": true,
           "canSignIn": true,
           "canUnlink": true,
-          "prompted": false,
-          "signupGroup": "",
-          "rule": "None",
-          "provider": null
-        },
-        {
-          "owner": "admin",
-          "name": "provider-captcha-cloudflare",
-          "canSignUp": false,
-          "canSignIn": false,
-          "canUnlink": false,
           "prompted": false,
           "signupGroup": "",
           "rule": "None",
@@ -259,6 +269,47 @@
   "providers": [
     {
       "owner": "admin",
+      "name": "provider_captcha_default",
+      "createdTime": "",
+      "displayName": "Default Captcha Provider",
+      "category": "Captcha",
+      "type": "Default",
+      "subType": "",
+      "method": "",
+      "clientId": "" ,
+      "clientSecret": "",
+      "clientId2": "",
+      "clientSecret2": "",
+      "cert": "",
+      "customAuthUrl": "",
+      "customTokenUrl": "",
+      "customUserInfoUrl": "",
+      "customLogo": "",
+      "scopes": "profile email",
+      "userMapping": {},
+      "host": "",
+      "port": 0,
+      "disableSsl": false,
+      "title": "Captcha",
+      "content": "",
+      "receiver": "",
+      "regionId": "",
+      "signName": "",
+      "templateCode": "",
+      "appId": "",
+      "endpoint": "",
+      "intranetEndpoint": "",
+      "domain": "",
+      "bucket": "",
+      "pathPrefix": "",
+      "metadata": "",
+      "idP": "",
+      "issuerUrl": "",
+      "enableSignAuthnRequest": false,
+      "providerUrl": ""
+    },
+    {
+      "owner": "admin",
       "name": "provider-google",
       "createdTime": "",
       "displayName": "Google OAuth Provider",
@@ -341,47 +392,6 @@
     },
     {
       "owner": "admin",
-      "name": "provider-captcha-cloudflare",
-      "createdTime": "",
-      "displayName": "Cloudflare Turnstile Captcha",
-      "category": "Captcha",
-      "type": "Cloudflare Turnstile",
-      "subType": "",
-      "method": "",
-      "clientId": "ri7oDHANKIBemTov",
-      "clientSecret": "NrZMW9IEPXL8wPpo",
-      "clientId2": "",
-      "clientSecret2": "",
-      "cert": "",
-      "customAuthUrl": "",
-      "customTokenUrl": "",
-      "customUserInfoUrl": "",
-      "customLogo": "",
-      "scopes": "",
-      "userMapping": {},
-      "host": "",
-      "port": 0,
-      "disableSsl": false,
-      "title": "Captcha",
-      "content": "",
-      "receiver": "",
-      "regionId": "",
-      "signName": "",
-      "templateCode": "",
-      "appId": "",
-      "endpoint": "",
-      "intranetEndpoint": "",
-      "domain": "",
-      "bucket": "",
-      "pathPrefix": "",
-      "metadata": "",
-      "idP": "",
-      "issuerUrl": "",
-      "enableSignAuthnRequest": false,
-      "providerUrl": ""
-    },
-    {
-      "owner": "admin",
       "name": "provider-email",
       "displayName": "Email Provider",
       "category": "Email",
@@ -391,6 +401,7 @@
       "clientSecret": "<<CASDOOR_EMAIL_PROVIDER_CLIENT_SECRET>>",
       "clientId2": "<<CASDOOR_EMAIL_PROVIDER_CLIENT_ID_2>>",
       "clientSecret2": "<<CASDOOR_EMAIL_PROVIDER_CLIENT_SECRET_2>>",
+      "content" : "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Verification Code Email</title>\n<style>\n    body { font-family: Arial, sans-serif; }\n    .email-container { width: 600px; margin: 0 auto; }\n    .header { text-align: center; }\n    .code { font-size: 24px; margin: 20px 0; text-align: center; }\n    .footer { font-size: 12px; text-align: center; margin-top: 50px; }\n    .footer a { color: #000; text-decoration: none; }\n</style>\n</head>\n<body>\n<div class=\"email-container\">\n  <div class=\"header\">\n        <h3>Casbin Organization</h3>\n        <img src=\"https://cdn.casbin.org/img/casdoor-logo_1185x256.png\" alt=\"Casdoor Logo\" width=\"300\">\n    </div>\n    <p><strong>%{user.friendlyName}</strong>, here is your verification code</p>\n    <p>Use this code for your transaction. It's valid for 5 minutes</p>\n    <div class=\"code\">\n        %s\n    </div>\n    <reset-link>\n      <div class=\"link\">\n         Or click this <a href=\"%link\">link</a> to reset\n      </div>\n    </reset-link>\n    <p>Thanks</p>\n    <p>Casbin Team</p>\n    <hr>\n    <div class=\"footer\">\n        <p>Casdoor is a brand operated by Casbin organization. For more info please refer to <a href=\"https://casdoor.org\">https://casdoor.org</a></p>\n    </div>\n</div>\n</body>\n</html>",
       "cert": "",
       "customAuthUrl": "",
       "customTokenUrl": "",
@@ -411,7 +422,7 @@
       "domain": "",
       "bucket": "",
       "pathPrefix": "",
-      "metadata": "",
+      "metadata": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Invitation Code Email</title>\n<style>\n    body { font-family: Arial, sans-serif; }\n    .email-container { width: 600px; margin: 0 auto; }\n    .header { text-align: center; }\n    .code { font-size: 24px; margin: 20px 0; text-align: center; }\n    .footer { font-size: 12px; text-align: center; margin-top: 50px; }\n    .footer a { color: #000; text-decoration: none; }\n</style>\n</head>\n<body>\n<div class=\"email-container\">\n  <div class=\"header\">\n        <h3>Casbin Organization</h3>\n        <img src=\"https://cdn.casbin.org/img/casdoor-logo_1185x256.png\" alt=\"Casdoor Logo\" width=\"300\">\n    </div>\n    <p>You have been invited into Casdoor</p>\n    <div class=\"code\">\n        %code\n    </div>\n    <reset-link>\n      <div class=\"link\">\n         Or click this <a href=\"%link\">link</a> to signup\n      </div>\n    </reset-link>\n    <p>Thanks</p>\n    <p>Casbin Team</p>\n    <hr>\n    <div class=\"footer\">\n        <p>Casdoor is a brand operated by Casbin organization. For more info please refer to <a href=\"https://casdoor.org\">https://casdoor.org</a></p>\n    </div>\n</div>\n</body>\n</html>",
       "idP": "",
       "issuerUrl": "",
       "enableSignAuthnRequest": false,
@@ -435,4 +446,3 @@
     }
   ]
 }
-
