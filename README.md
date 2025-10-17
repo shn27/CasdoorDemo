@@ -282,3 +282,44 @@ MAILER_TYPE         = smtp
     "title": "Casdoor Verification Code"
     } ]
 ```
+
+-----------------------
+
+# Saml Integration for production
+## Plan
+https://claude.ai/public/artifacts/3253bcc5-c7a0-432f-8e8b-027d07c13be6
+```
+User logs into App1 via IdP1 (Okta)
+IdP1 creates session for user
+User tries to access App2
+App2 redirects to Casdoor
+Casdoor sees it doesn't have user session
+Casdoor acts as SP to IdP1 (federated authentication)
+Casdoor redirects to IdP1
+IdP1 sees user already logged in → auto-approves
+IdP1 sends SAML assertion to Casdoor
+Casdoor creates session and redirects to App2
+User is logged in without entering credentials! ✅
+```
+
+### Run 2 Casdoor
+
+```json
+docker run --rm -it \
+--name casdoor1 \
+--add-host=host.docker.internal:host-gateway \
+-p 8000:8000 \
+-e driverName=postgres \
+-v ./test1.json:/init_data.json \
+-e dataSourceName='user=postgres password=postgres host=host.docker.internal port=5432 sslmode=disable dbname=casdoor-test' \
+casbin/casdoor:latest
+```
+
+```json
+docker run --rm -it \
+--name casdoor2 \
+--add-host=host.docker.internal:host-gateway \
+-p 9000:8000 \
+-e driverName=postgres \
+-e dataSourceName='user=postgres password=postgres host=host.docker.internal port=5432 sslmode=disable dbname=casdoor-test-1' \
+```

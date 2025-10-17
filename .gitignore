@@ -38,8 +38,7 @@ __debug*
 **/.env
 /.vscode
 /coverage.txt
-inbox-agent
-
+test1.json
 /bin
 /.go
 

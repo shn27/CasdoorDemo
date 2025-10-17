@@ -26,8 +26,8 @@ const (
 	AppName    = "cloud-be"              // Application name in Casdoor (must match exactly!)
 
 	// Your Application Configuration
-	ServerPort = ":8080"                 // Port your app runs on
-	BaseURL    = "http://localhost:8080" // Your app's base URL
+	ServerPort = ":9000"                 // Port your app runs on
+	BaseURL    = "http://localhost:9000" // Your app's base URL
 )
 
 // ============================================================================
@@ -143,7 +143,7 @@ func initializeSAML() (*saml2.SAMLServiceProvider, error) {
 	// - SSO login URL
 	// - X.509 certificates for signature verification
 	// - Supported bindings (HTTP-POST, HTTP-Redirect)
-	metadataURL := fmt.Sprintf("%s/api/saml/metadata?application=admin/%s", CasdoorURL, AppName)
+	metadataURL := fmt.Sprintf("%s/api/saml/metadata?application=admin/%s&enablePostBinding=false", CasdoorURL, AppName)
 
 	log.Printf("📥 Fetching metadata from: %s", metadataURL)
 
