@@ -23,26 +23,10 @@ replace_placeholders:
 
 .PHONY: replace_placeholders_into_new_file
 replace_placeholders_into_new_file:
-	@cp test.json test1.json 2>/dev/null || cp test.json test1.json; \
-	while IFS='=' read -r key raw_value; do \
-		# Skip empty lines or comments \
-		[ -z "$$key" ] && continue; \
-		echo "$$key" | grep -q '^[[:space:]]*#' && continue; \
-		# Trim spaces from key and value \
-		key=$$(echo "$$key" | sed 's/^[[:space:]]*//;s/[[:space:]]*$$//'); \
-		value=$$(echo "$$raw_value" | sed 's/^[[:space:]]*//;s/[[:space:]]*$$//' | sed 's/^[",]*//;s/[",]*$$//'); \
-		# Escape problematic chars for sed (/, \, &, |) \
-		escaped_value=$$(printf '%s' "$$value" | sed 's/[\\/&|]/\\&/g'); \
-		if [ -n "$$key" ] && [ -n "$$escaped_value" ]; then \
-			if grep -q "<<$$key>>" test1.json; then \
-				sed -i "s|<<$$key>>|$$escaped_value|g" test1.json; \
-				echo "✅ Replaced $$key"; \
-			else \
-				echo "⚠️  Placeholder <<$$key>> not found in test1.json"; \
-			fi; \
-		else \
-			echo "⚠️  Skipped invalid or empty entry: $$key=$$value"; \
-		fi; \
-	done < cmd/.env
+	cd Deploy && \
+	chmod +x populate.sh && \
+	./populate.sh
+
+
 
 

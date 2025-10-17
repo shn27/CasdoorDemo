@@ -321,5 +321,6 @@ docker run --rm -it \
 --add-host=host.docker.internal:host-gateway \
 -p 9000:8000 \
 -e driverName=postgres \
+-v ./test2.json:/init_data.json \
 -e dataSourceName='user=postgres password=postgres host=host.docker.internal port=5432 sslmode=disable dbname=casdoor-test-1' \
 ```
