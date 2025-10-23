@@ -28,6 +28,7 @@ func main() {
 
 	// Public routes
 	r.GET("/", handleHome)
+	r.GET("/token", handleTestToken)
 	r.GET("/login", handleLogin)
 	r.GET("/signup", handleSignup)
 	r.GET("/callback", handleCallback)
@@ -38,6 +39,7 @@ func main() {
 	{
 		protected.GET("/profile", handleProfile)
 		protected.GET("/logout", handleLogout)
+		protected.GET("/mfa/initiate", handleMfaInitiate)
 	}
 
 	port := os.Getenv("PORT")
@@ -94,6 +96,21 @@ func handleSignup(c *gin.Context) {
 	})
 }
 
+func getToken(code, state string) (string, error) {
+	token, err := casdoorClient.GetOAuthToken(code, state)
+	if err != nil {
+		fmt.Println("Error getting token")
+		return "", err
+	}
+	// Parse the JWT token to get user information
+	_, err = casdoorClient.ParseJwtToken(token.AccessToken)
+	if err != nil {
+		fmt.Println("Failed to parse token")
+		return "", err
+	}
+	return token.AccessToken, nil
+}
+
 func handleCallback(c *gin.Context) {
 	code := c.Query("code")
 	state := c.Query("state")
@@ -128,7 +145,6 @@ func handleCallback(c *gin.Context) {
 		})
 		return
 	}
-
 	// In a real application, you would:
 	// 1. Store the token securely (e.g., in session, database, or secure cookie)
 	// 2. Create a session for the user
@@ -184,10 +200,12 @@ func handleLogout(c *gin.Context) {
 // Middleware to protect routes
 func authMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.GetHeader("Authorization")
+		code := "6258dbfbc9ec08c8aed4"
+		state := "cloud-be"
+		token, _ := getToken(code, state)
 		if token == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"error": "No authorization token provided",
+				"error": "No authorization token provided yes",
 			})
 			c.Abort()
 			return
@@ -212,4 +230,98 @@ func authMiddleware() gin.HandlerFunc {
 		c.Set("user", user)
 		c.Next()
 	}
+}
+
+// MFA Handlers
+
+func handleMfaInitiate(c *gin.Context) {
+	fmt.Println("================")
+	// Get user from context (set by authMiddleware)
+	userInterface, exists := c.Get("user")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "User not authenticated",
+		})
+		return
+	}
+
+	user, ok := userInterface.(*casdoorsdk.Claims)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Invalid user data",
+		})
+		return
+	}
+
+	// Parse request body
+	//var req struct {
+	//	MfaType string `json:"mfaType" binding:"required"` // "app", "sms", or "email"
+	//}
+	//
+	//if err := c.ShouldBindJSON(&req); err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{
+	//		"error": "Invalid request: mfaType is required (app, sms, or email)",
+	//	})
+	//	return
+	//}
+	//
+	//// Validate MFA type
+	//if req.MfaType != "app" && req.MfaType != "sms" && req.MfaType != "email" {
+	//	c.JSON(http.StatusBadRequest, gin.H{
+	//		"error": "Invalid mfaType. Must be 'app', 'sms', or 'email'",
+	//	})
+	//	return
+	//}
+
+	// Initiate MFA setup
+	mfaResp, err := casdoorClient.Initiate(
+		user.User.Owner, // Organization name
+		"email",         // MFA type
+		user.User.Name,  // Username
+	)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": fmt.Sprintf("Failed to initiate MFA: %v", err),
+		})
+		return
+	}
+
+	if mfaResp.Status != "ok" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": mfaResp.Msg,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "success",
+		"message": "MFA initiated successfully",
+		"data": gin.H{
+			"secret":         mfaResp.Data.Secret,
+			"qr_code_url":    mfaResp.Data.URL,
+			"recovery_codes": mfaResp.Data.RecoveryCodes,
+			"mfa_type":       mfaResp.Data.MfaType,
+		},
+	})
+}
+
+func handleTestToken(c *gin.Context) {
+	fmt.Println("==============")
+	token := c.Query("token")
+	if token == "" {
+		c.JSON(400, gin.H{"error": "token query param required"})
+		return
+	}
+
+	user, err := casdoorClient.ParseJwtToken(token)
+	if err != nil {
+		c.JSON(401, gin.H{
+			"error":   "Parse failed",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{"user": user})
 }

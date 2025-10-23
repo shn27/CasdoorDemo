@@ -3,7 +3,7 @@ module github.com/shn27/CasdoorDemo
 go 1.24.3
 
 require (
-	github.com/casdoor/casdoor-go-sdk v1.20.0
+	github.com/casdoor/casdoor-go-sdk v1.22.0
 	github.com/gin-gonic/gin v1.11.0
 	github.com/russellhaering/gosaml2 v0.10.0
 	github.com/russellhaering/goxmldsig v1.5.0

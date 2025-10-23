@@ -38,7 +38,7 @@ __debug*
 **/.env
 /.vscode
 /coverage.txt
-test1.json
+init_data.json
 /bin
 /.go
 
