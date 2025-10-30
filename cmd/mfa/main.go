@@ -8,19 +8,26 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/casdoor/casdoor-go-sdk/casdoorsdk"
 	"github.com/gin-gonic/gin"
 )
 
 var casdoorClient *casdoorsdk.Client
+var isTest bool = true
 
 func init() {
+	cert := os.Getenv("CASDOOR_CERTIFICATE")
+	if isTest {
+		cert = strings.ReplaceAll(cert, `\n`, "\n")
+	}
+
 	casdoorClient = casdoorsdk.NewClient(
 		os.Getenv("CASDOOR_ENDPOINT"), // e.g., "http://localhost:8000"
 		os.Getenv("CASDOOR_CLIENT_ID"),
 		os.Getenv("CASDOOR_CLIENT_SECRET"),
-		os.Getenv("CASDOOR_CERTIFICATE"),
+		cert,
 		os.Getenv("CASDOOR_ORGANIZATION"), // e.g., "appscode"
 		os.Getenv("CASDOOR_APPLICATION"),
 	)
@@ -28,7 +35,7 @@ func init() {
 
 func main() {
 	r := gin.Default()
-
+	fmt.Println("kaka mfa=====")
 	// Public routes
 	r.GET("/", handleHome)
 	r.GET("/login", handleLogin)
@@ -428,29 +435,13 @@ func handleMfaEnable(c *gin.Context) {
 		})
 		return
 	}
-
-	// Get the token from Authorization header
-	token := c.GetHeader("Authorization")
-	if len(token) > 7 && token[:7] == "Bearer " {
-		token = token[7:]
-	}
-
 	log.Printf("Enabling MFA for user: %s with %d recovery codes", user.User.Name, len(req.RecoveryCodes))
-
-	// Use custom function that includes recovery codes (SDK bug workaround)
-	err := enableMfaWithRecoveryCodes(
-		user.User.Owner,
-		req.MfaType,
-		user.User.Name,
-		req.Secret,
-		req.RecoveryCodes,
-		token,
-	)
+	_, err := casdoorClient.Enable(user.User.Owner, req.MfaType, user.User.Name, req.Secret, req.RecoveryCodes[0])
 
 	if err != nil {
-		log.Printf("MFA enable error: %v", err)
+		log.Printf("Enable MFA error: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": fmt.Sprintf("Failed to enable MFA: %v", err),
+			"error": fmt.Sprintf("Failed to enabled MFA: %v", err),
 		})
 		return
 	}
@@ -705,13 +696,11 @@ func authMiddleware() gin.HandlerFunc {
 }
 
 func handleTestToken(c *gin.Context) {
-	fmt.Println("==============")
 	token := c.Query("token")
 	if token == "" {
 		c.JSON(400, gin.H{"error": "token query param required"})
 		return
 	}
-
 	user, err := casdoorClient.ParseJwtToken(token)
 	if err != nil {
 		c.JSON(401, gin.H{

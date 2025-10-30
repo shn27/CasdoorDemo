@@ -27,10 +27,11 @@ const (
 )
 
 type MfaRequest struct {
-	Owner   string `json:"owner"`
-	MfaType string `json:"mfaType"`
-	Name    string `json:"name"`
-	Secret  string `json:"secret,omitempty"`
+	Owner        string `json:"owner"`
+	MfaType      string `json:"mfaType"`
+	Name         string `json:"name"`
+	Secret       string `json:"secret,omitempty"`
+	RecoveryCode string `json:"recoveryCodes,omitempty"`
 }
 
 type MfaInitiateResponse struct {
@@ -119,12 +120,13 @@ func (c *Client) Verify(owner, mfaType, name, secret, passcode string) (*MfaVeri
 	return &mfaResp, nil
 }
 
-func (c *Client) Enable(owner, mfaType, name, secret string) (*MfaVerifyResponse, error) {
+func (c *Client) Enable(owner, mfaType, name, secret string, recoveryCode string) (*MfaVerifyResponse, error) {
 	mfaReq := MfaRequest{
-		Owner:   owner,
-		MfaType: mfaType,
-		Name:    name,
-		Secret:  secret,
+		Owner:        owner,
+		MfaType:      mfaType,
+		Name:         name,
+		Secret:       secret,
+		RecoveryCode: recoveryCode,
 	}
 
 	postBytes, err := json.Marshal(mfaReq)
@@ -137,7 +139,7 @@ func (c *Client) Enable(owner, mfaType, name, secret string) (*MfaVerifyResponse
 		return nil, err
 	}
 
-	dataBytes, err := json.Marshal(resp.Data)
+	dataBytes, err := json.Marshal(resp)
 	if err != nil {
 		return nil, err
 	}
@@ -174,6 +176,6 @@ func (c *Client) Delete(owner, name string) error {
 		"name":  name,
 	}
 
-	_, err := c.DoPost("delete-mfa", queryMap, nil, true, false)
+	_, err := c.DoPost("delete-mfa", queryMap, nil, false, false)
 	return err
 }

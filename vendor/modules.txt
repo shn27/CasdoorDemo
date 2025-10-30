@@ -42,7 +42,7 @@ github.com/bytedance/sonic/loader/internal/abi
 github.com/bytedance/sonic/loader/internal/iasm/expr
 github.com/bytedance/sonic/loader/internal/iasm/x86_64
 github.com/bytedance/sonic/loader/internal/rt
-# github.com/casdoor/casdoor-go-sdk v1.22.0
+# github.com/casdoor/casdoor-go-sdk v1.29.0
 ## explicit; go 1.17
 github.com/casdoor/casdoor-go-sdk/casdoorsdk
 # github.com/cloudwego/base64x v0.1.6
